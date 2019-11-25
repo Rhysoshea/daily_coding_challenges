@@ -21,9 +21,9 @@ def num_encodings1(s):
     total = 0
 
     if int(s[:2]) <= 26:
-        total += num_encodings(s[2:])
+        total += num_encodings1(s[2:])
 
-    total += num_encodings(s[1:])
+    total += num_encodings1(s[1:])
     return total
 
 
@@ -48,8 +48,8 @@ def num_encodings2(s):
             if int(s[i:i + 2]) <= 26:
                 cache[i] = cache[i+2]
             cache[i] += cache[i+1]
-    return cache
+    return cache[0]
 
 if __name__ == "__main__":
-    # print (num_encodings1('211'))
+    print (num_encodings1('211'))
     print (num_encodings2('211'))
