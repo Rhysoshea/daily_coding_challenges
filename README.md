@@ -9,3 +9,4 @@
 7. Given the mapping a = 1, b = 2, ... z = 26, and an encoded message, count the number of ways it can be decoded.
 8. A unival tree (which stands for "universal value") is a tree where all nodes under it have the same value. Given the root to a binary tree, count the number of unival subtrees.
 9. Given a list of integers, write a function that returns the largest sum of non-adjacent numbers. Numbers can be 0 or negative.
+10. Implement a job scheduler which takes in a function f and an integer n, and calls f after n milliseconds.
