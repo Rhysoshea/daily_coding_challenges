@@ -13,3 +13,4 @@
 11. Implement an autocomplete system. That is, given a query string s and a set of all possible query strings, return all strings in the set that have s as a prefix.
 12. There exists a staircase with N steps, and you can climb up either 1 or 2 steps at a time. Given N, write a function that returns the number of unique ways you can climb the staircase. The order of the steps matters.
 14. The area of a circle is defined as pi.r^2. Estimate pi to 3 decimal places using a Monte Carlo method.
+15.  Given a stream of elements too large to store in memory, pick a random element from the stream with uniform probability.
