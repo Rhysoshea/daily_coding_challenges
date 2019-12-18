@@ -14,38 +14,49 @@ using namespace std;
 class Log {
   public:
     vector<int> log;
-  Log(int N){
-    vector<int> log(N);
+    int N;
+
+  Log(int n){
+    vector<int> log(n);
+    N = n;
   }
 
   void record(int order_id) {
+    if (log.size() >= N) {
+      log.erase(log.begin());
+    }
     log.push_back(order_id);
   }
 
   int get_last(int i) {
+    if (i > log.size()){
+      cout << "Array not large enough"
+      return 0
+    }
     return log[log.size()-i];
   }
 
   void print_log() {
     for (int i:log) {
-      cout << i << endl;
+      cout << i << " ";
     }
+    cout << endl;
   }
-
 };
 
 
 int main() {
-  Log commerce_log(10);
+  int N = 3;
+  Log commerce_log(N);
 
   commerce_log.record(1);
   commerce_log.record(2);
   commerce_log.record(3);
   commerce_log.record(4);
 
-  // commerce_log.print_log();
+  commerce_log.print_log();
 
-  int last = commerce_log.get_last(2);
+  int last = commerce_log.get_last(4);
 
   cout << "Last: " << last << endl;
 
