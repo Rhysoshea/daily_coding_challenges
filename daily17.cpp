@@ -35,60 +35,65 @@
 #include <string>
 #include <algorithm>
 #include <iterator>
+#include <stack>
 
 
 using std::vector;
 using namespace std;
 
-struct Node {
+class Node {
+public:
   string name;
   bool file;
   int path_length;
   int id;
   Node *parent;
   vector<Node *> children;
-  void set_path_length();
-  void is_file();
 
-  Node (string name_, int id_) :
-  name(name_),
-  id(id_)
-  // parent(parent_)
-  {}
-
-};
-
-void Node::set_path_length() {
-  path_length = parent->path_length + name.size();
-}
-
-void Node::is_file() {
-  if (name.find(".") != string::npos){
-    file = true;
-  } else {
-    file = false;
-  }
-}
-
-class Tree {
-  public:
-    vector<Node> tree;
-    int size = tree.size();
-
-  void add_to(Node node) {
-    tree.push_back(node);
+  Node (string name_) {
+    this->name = name_;
+    // this->parent = NULL;
   }
 
-  Node get_node(int id) {
-    return tree[id];
+  void setParent(Node *theParent){
+    this->parent = theParent;
+    // cout << this->name << " parent: " << parent->name << endl;
+    parent->children.push_back(this);
   }
 
-  void print_all(){
-    for (Node i:tree){
-      cout << i.name << endl;
+  void set_path_length() {
+    this->path_length = parent->path_length + name.size();
+  }
+
+  void is_file() {
+    if (name.find(".") != string::npos){
+      file = true;
+    } else {
+      file = false;
     }
   }
+
 };
+
+
+void print_all(vector<Node> tree){
+  for (Node i:tree){
+    int indents = 0;
+    while(i.name.find("\t") != string::npos){
+      indents++;
+      i.name = i.name.substr(1,i.name.size());
+    }
+    // cout << i.name << " indents: " << indents << endl;
+    cout << i.name <<  endl; //" parent: " << i.parent->name << endl;
+
+  }
+}
+
+void print_path(vector<Node> tree){
+  for (Node i:tree){
+    cout << i.name << " path: " << i.path_length << endl;
+  }
+}
 
 vector<string> split(const string& str, char delim = '\n') {
     vector<string> cont;
@@ -104,17 +109,72 @@ vector<string> split(const string& str, char delim = '\n') {
     return cont;
 }
 
+int check_indents(Node i){
+  int indents = 0;
+  while(i.name.find("\t") != string::npos){
+    indents++;
+    i.name = i.name.substr(1,i.name.size());
+  }
+  return indents;
+}
+
+
 int main() {
   string path = "dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext";
 
   vector<string> items = split(path);
 
-  Tree directory;
+  vector<Node> directory;
 
-  for (string i:items) {
-    directory.add_to(Node(i, directory.size ));
+  stack<Node> q;
+  int depth = 0;
+  Node current_node(items[0]);
+  directory.push_back(current_node);
+
+  q.push(current_node);
+  Node current_parent = q.top();
+  items.erase(items.begin());
+
+  current_node.setParent(&current_parent);
+  current_node.set_path_length();
+
+  cout << current_node.name << " " << check_indents(current_node) << " " << depth << endl;
+
+
+  for (string s:items) {
+    Node current_node(s);
+    cout << current_node.name << " " << check_indents(current_node) << " " << depth << endl;
+
+    if (check_indents(current_node) > depth) {
+      current_parent = q.top();
+      depth = check_indents(current_node);
+      q.push(current_node);
+      // cout << "current parent: " << current_parent.name << endl;
+
+    } else if (check_indents(current_node) < depth) {
+      for (int i=0; i<depth; i++){
+        // cout << i << endl;
+        q.pop();
+        // cout << q.top().name << endl;
+      }
+      current_parent = q.top();
+      // cout << "current parent: " << current_parent.name << endl;
+      depth = check_indents(current_node);
+    }
+
+    directory.push_back(current_node);
+    current_node.setParent(&current_parent);
+    current_node.set_path_length();
+    current_node.is_file();
+
+
   }
 
-  directory.print_all();
+  print_all(directory);
+  // print_path(directory);
+  // for (Node i : directory){
+  //   cout << i.parent->name << endl;
+  // }
+  cout << directory[2].name << endl;
 
 }
