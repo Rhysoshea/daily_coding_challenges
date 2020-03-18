@@ -15,3 +15,4 @@
 14. The area of a circle is defined as pi.r^2. Estimate pi to 3 decimal places using a Monte Carlo method.
 15.  Given a stream of elements too large to store in memory, pick a random element from the stream with uniform probability.
 16. You run an e-commerce website and want to record the last N order ids in a log. Implement a data structure to accomplish this.
+17. Given a file directory path, compute the longest path length of the location of a file, or an empty string if no file is present.
