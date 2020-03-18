@@ -45,24 +45,24 @@ class Node {
 public:
   string name;
   bool file;
-  int path_length;
-  int id;
+  int path_length = 0;
   Node *parent;
-  vector<Node *> children;
+  // vector<Node *> children;
 
   Node (string name_) {
     this->name = name_;
-    // this->parent = NULL;
+    this->parent = NULL;
   }
 
   void setParent(Node *theParent){
     this->parent = theParent;
     // cout << this->name << " parent: " << parent->name << endl;
-    parent->children.push_back(this);
+    // parent->children.push_back(this);
   }
 
   void set_path_length() {
     this->path_length = parent->path_length + name.size();
+    // cout << path_length << endl;
   }
 
   void is_file() {
@@ -84,7 +84,7 @@ void print_all(vector<Node> tree){
       i.name = i.name.substr(1,i.name.size());
     }
     // cout << i.name << " indents: " << indents << endl;
-    cout << i.name <<  endl; //" parent: " << i.parent->name << endl;
+    cout << i.name <<  " path: " << i.path_length << endl;
 
   }
 }
@@ -160,12 +160,14 @@ int main() {
       current_parent = q.top();
       // cout << "current parent: " << current_parent.name << endl;
       depth = check_indents(current_node);
+      q.push(current_node);
     }
 
     directory.push_back(current_node);
     current_node.setParent(&current_parent);
     current_node.set_path_length();
     current_node.is_file();
+    cout << current_node.parent->path_length << endl;
 
 
   }
@@ -175,6 +177,6 @@ int main() {
   // for (Node i : directory){
   //   cout << i.parent->name << endl;
   // }
-  cout << directory[2].name << endl;
+  // cout << directory[2].parent->name << endl;
 
 }
