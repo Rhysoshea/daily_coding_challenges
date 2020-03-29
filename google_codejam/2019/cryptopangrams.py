@@ -95,7 +95,6 @@ def solution(nL, input):
     sorted_primes = sorted(sorted_primes)
 
     mapping = dict(zip(sorted_primes,alphabet))
-    print(mapping)
     output = [mapping.get(x) for x in primes]
     return ''.join([str(x) for x in output])
 
