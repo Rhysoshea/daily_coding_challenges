@@ -74,26 +74,21 @@ def solution(D, P):
     S_count = 0
     C_count = 0
     P = [x for x in P]
-    print (P)
     for i, val in enumerate(P):
-        print (val)
         if val == "C":
             charge = charge*2
             P[i] = 0
             C_count += 1
         else:
-            # print ('here')
             damage += charge
             P[i] = charge
             S_count += 1
-    if damage <= D or S_count == 0:
-        # print(damage)
-        # print(S_count)
-        return 0
-    if C_count == 0:
+    if S_count > D:
         return "IMPOSSIBLE"
+    if damage <= D or S_count == 0:
+        return 0
+
     swaps = 0
-    print (damage)
     while True:
         j = len(P) - 1
         while j>0:
@@ -102,7 +97,6 @@ def solution(D, P):
                 P[j-1] = P[j]/2
                 P[j] = 0
                 swaps += 1
-                print("damage: ", damage)
                 j = len(P) - 1
                 if damage <= D:
                     return swaps
@@ -110,5 +104,7 @@ def solution(D, P):
     return "IMPOSSIBLE"
 
 
-for i in range(int(input())):
-    print ("Case #{}: {}".format(i+1, solution(int(input()), input())))
+for i in range(1, int(input())+1):
+    td, s = input().strip().split()
+
+    print ("Case #{}: {}".format(i, solution(int(td), s)))
