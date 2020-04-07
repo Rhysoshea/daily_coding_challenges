@@ -10,51 +10,59 @@ def returnMedian(arr):
         return (arr[n//2]+arr[(n//2)-1])/2
     return arr[n//2]
 
+# use insert sort to speed up, still not fast enough
 def insertSort(arr, new):
-    arr.pop(0)
-    arr.append(new)
-    i = len(arr)-1
-    while arr[i] > new and i>=0:
-        arr[i+1] = arr[i]
-        i -= 1
+    arr[0] = new
+    i = 0
+    if len(arr) < 2:
+        return arr
+    while arr[i+1] < new:
+        arr[i] = arr[i+1]
+        i += 1
+        if i >= len(arr)-2:
+            break
+        # print(i)
     arr[i] = new
-
     return arr
+
+# use count sort to speed up further still
+# def countSort(arr):
+#     counts = [0]*(max(arr)+1)
+#     for i in arr:
+#         counts[i] += 1
+#     output = []
+
+#     for i, count in enumerate(counts):
+#         output.extend([i]*count)
+#     return output
+
+
+def countSort(arr):
+    output = []
+    for i, count in enumerate(arr):
+        output.extend([i]*count)
+    return output
 
 def fraudulentSpend(n, d, arr):
     count = 0
     if len(arr) < 2:
         return 0
-    # sortedArr = sorted(arr[0:d])
-    # print(sortedArr)
-    for i in range(n-d):
-        if i == 0:
-            sortedArr = sorted(arr[0:d])
-        else:
-            sortedArr = insertSort(sortedArr,arr[i+d-1])
-        print(sortedArr)
-        print(arr[i+d], returnMedian(sortedArr))
-        if arr[i+d] >= 2*(returnMedian(sortedArr)):
-            count += 1
-    print (count)
+    historic_count = [0] * (max(arr)+1)
+    for i in range(len(arr)-1):
+        historic_count[arr[i]] += 1
+        sortedArr = countSort(historic_count)
+        if i+1 >= d:
+            # print(sortedArr)
+            # print(returnMedian(sortedArr))
+            if arr[i+1] >= 2*(returnMedian(sortedArr)):
+                count += 1
+            historic_count[sortedArr[0]] -= 1
+
+    # print (count)
     return count
 
 
-# def fraudulentSpend(n, d, arr):
-#     count = 0
-#     if d % 2 == 0:
-#         for i in range(n-d):
-#             median = (arr[i+(d//2)]+arr[i+(d//2)-1])/2
-#             if arr[i+d] >= 2*median:
-#                 count += 1
-#     else:
-#         for i in range(n-d):
-#             median = arr[i+(d//2)]
-#             if arr[i+d] >= 2*median:
-#                 count += 1
-#     print(count)
-#     return count
+assert (fraudulentSpend(9, 1, [2, 3, 4, 2, 3, 6, 8, 4, 5])==1)
+assert (fraudulentSpend(5, 4, [1, 2, 3, 4, 4]) == 0)
+assert (fraudulentSpend(5, 3, [10, 20, 30, 40, 50]) == 1)
 
-assert (fraudulentSpend(9, 1, [2, 3, 4, 2, 3, 6, 8, 4, 5])==2)
-# assert (fraudulentSpend(5, 4, [1, 2, 3, 4, 4]) == 0)
-# assert (fraudulentSpend(5, 1, [10, 20, 30, 40, 50]) == 1)
