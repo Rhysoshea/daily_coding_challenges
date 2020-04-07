@@ -86,3 +86,93 @@ The following interaction meets the limits for Test set 1.
   verdict = readline_str()     // Reads -1 into verdict.
   exit                         // exits to avoid an ambiguous TLE error
   """
+
+
+import sys
+
+
+def readline_three_int():
+  instring = input()
+  n, b, f = instring.split(' ')
+  return int(n), int(b), int(f)
+
+
+def guessNumber(n,i):
+  guess = "0"*i + "1"*i
+  guess = (guess*(n//(2*i))) + guess[:n%(2*i)]
+  return guess
+
+
+def readline(guess):
+  print(guess)
+  sys.stdout.flush()
+  return input()
+
+def binTransform(str):
+  decVal = 0
+  for i, num in enumerate(str):
+    if num == "1":
+      decVal += (2**int(i))
+  return decVal
+
+
+def solve(n, b):
+  broken = []
+  working = []
+  all = [x for x in range(n)]
+  responses = []
+                            #columns read as binary indices
+  guess1 = guessNumber(n,1) #01010101010101010
+  guess2 = guessNumber(n,2) #00110011001100110
+  guess3 = guessNumber(n,4) #00001111000011110
+  guess4 = guessNumber(n,8) #00000000111111110
+  guesses = [guess1, guess2, guess3, guess4]
+  for guess in guesses:
+    s = readline(guess)
+    if s == "-1":
+      exit()
+    responses.append(s)
+
+  last_index = -1
+  current_group = 0
+  # print (n-b)
+  for i in range(n-b):
+    current_index = binTransform(''.join([x[i:i+1] for x in responses]))
+    if last_index > current_index:
+      current_group += 1
+    working.append((current_group*16)+current_index)
+    # print (current_index)
+      # for j in range(15%last_index):
+      #   broken.append(str((current_group*16) +j+1))
+      # for j in range(current_index):
+      #   broken.append(str((current_group*16) + j))
+    # print("current index ", current_index)
+    # print ("last index ", last_index)
+    # if current_index != last_index+1:
+    #   print ('here')
+    #   for j in range(last_index+1,current_index+1):
+    #     print(j)
+    #     broken.append(str((current_group*16) + j))
+    last_index = current_index
+  # send answer
+  for i in all:
+    if i not in working:
+      broken.append(str(i))
+  s = readline(' '.join(broken))
+  if s == "1":
+    return 
+  exit()
+
+def main():
+  t = int(input())
+
+  for _ in range(t):
+    # n = number of bits
+    # b = number of broken workers
+    # f = number of attempts
+    n, b, f = readline_three_int()
+    solve(n, b)
+
+
+if __name__ == "__main__":
+  main()

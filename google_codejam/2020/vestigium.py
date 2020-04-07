@@ -90,9 +90,9 @@ def solution(n, arr):
     for i in range(n):
         if len(arr[i]) != len(set(arr[i])):
             r += 1
-        print([x[i] for x in arr], set([x[i] for x in arr]))
+        # print([x[i] for x in arr], set([x[i] for x in arr]))
         if len([x[i] for x in arr]) != len(set([x[i] for x in arr])):
-            c+=1
+            c+=1g
         k+=arr[i][i]
 
     return k, r, c

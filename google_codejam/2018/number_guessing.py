@@ -99,8 +99,6 @@ def solve(a, b):
         b = guess - 1  # guess
     elif s == "CORRECT":
         return
-    # elif s == "WRONG_ANSWER":
-    #     exit()
     solve(a, b)
 
 
