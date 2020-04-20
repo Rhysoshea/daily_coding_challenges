@@ -90,7 +90,6 @@ The following interaction meets the limits for Test set 1.
 
 import sys
 
-
 def readline_three_int():
   instring = input()
   n, b, f = instring.split(' ')
@@ -117,9 +116,8 @@ def binTransform(str):
 
 
 def solve(n, b):
-  broken = []
-  working = []
-  all = [x for x in range(n)]
+  all = [str(x) for x in range(n)]
+
   responses = []
                             #columns read as binary indices
   guess1 = guessNumber(n,1) #01010101010101010
@@ -129,39 +127,21 @@ def solve(n, b):
   guesses = [guess1, guess2, guess3, guess4]
   for guess in guesses:
     s = readline(guess)
-    if s == "-1":
+    if s == -1:
       exit()
     responses.append(s)
 
   last_index = -1
   current_group = 0
-  # print (n-b)
   for i in range(n-b):
     current_index = binTransform(''.join([x[i:i+1] for x in responses]))
-    if last_index > current_index:
+    if last_index >= current_index: #culprit code
       current_group += 1
-    working.append((current_group*16)+current_index)
-    # print (current_index)
-      # for j in range(15%last_index):
-      #   broken.append(str((current_group*16) +j+1))
-      # for j in range(current_index):
-      #   broken.append(str((current_group*16) + j))
-    # print("current index ", current_index)
-    # print ("last index ", last_index)
-    # if current_index != last_index+1:
-    #   print ('here')
-    #   for j in range(last_index+1,current_index+1):
-    #     print(j)
-    #     broken.append(str((current_group*16) + j))
+    all.pop(all.index(str((current_group*16)+current_index)))
     last_index = current_index
-  # send answer
-  for i in all:
-    if i not in working:
-      broken.append(str(i))
-  s = readline(' '.join(broken))
-  if s == "1":
-    return 
-  exit()
+  s = readline(' '.join(all))
+  if s == -1:
+    exit() 
 
 def main():
   t = int(input())

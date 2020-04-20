@@ -5,6 +5,7 @@ from __future__ import print_function
 import random
 import sys
 import re
+import dat_bae
 
 # Use raw_input in Python2.
 try:
@@ -159,7 +160,10 @@ class Case:
 def getTestCases(test_number):
   F = (10, 5)[test_number]
   # You can edit or add your own test cases here.
-  cases = [Case([1, 2, 3], 4, F), Case([2, 3, 5], 6, F), Case([1000], 1024, F)]
+  cases = [Case([1, 2, 3], 4, F), Case([2, 3, 5], 6, F), Case(
+      [1000], 1024, F), Case([1000, 3, 5, 123, 43, 85, 999], 1024, F), Case([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], 1024, F)]
+  # cases = [Case([0,100,999], 1000, F)]
+
   return cases
 
 
