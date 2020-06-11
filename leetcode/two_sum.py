@@ -20,7 +20,7 @@ def two_sum(arr, target):
         else:
             h[num] = i
 
-# using array
+# using array - slower
 # def two_sum(arr, t):
 #     dp_arr = []
 
