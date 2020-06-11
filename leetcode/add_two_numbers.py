@@ -9,7 +9,7 @@
 # Explanation: 342 + 465 = 807.
 
 
-class listNode:
+class ListNode:
 
     def __init__(self, val=0, next=None):
         self.val = val
@@ -20,57 +20,71 @@ class listNode:
         if self.next != None:
             self.next.print_list()
 
-def addRemaining(llist):
-    while True:
-        output.next = listNode(llist.val)
-        if llist.next ==None:
-            break
-    return 0
 
 def addTwoNumbers(llist1, llist2):
     carry = 0
-    output = listNode(None)
+    output = ListNode(None)
     while True:
         s = llist1.val + llist2.val + carry 
-        # print(s)
         carry = 0
         if s >= 10:
             carry += 1
             s = s%10
         
         if output.val == None:
-            output = listNode(s)
+            output = ListNode(s)
             firstNode = output
         else:
-            output.next = listNode(s)
+            output.next = ListNode(s)
             output = output.next
 
-        if llist1.next == None and llist2.next == None:
+        if llist1.next == None or llist2.next == None:
             break
 
         llist1 = llist1.next
         llist2 = llist2.next
 
     if llist1.next == None and llist2.next != None:
+        llist2 = llist2.next
         while True:
-            output.next = listNode(llist2.val)
+            s = llist2.val + carry 
+            carry = 0
+            if s >= 10:
+                carry = 1
+                s = s %10
+            output.next = ListNode(s)
             output = output.next
             if llist2.next == None:
                 break
-    if llist1.next != None and llist2.next == None:
+            llist2 = llist2.next 
+
+    elif llist1.next != None and llist2.next == None:
+        llist1 = llist1.next
         while True:
-            output.next = listNode(llist1.val)
+            s = llist1.val+carry
+            print ('here')
+            print (s)
+            carry = 0
+            if s >= 10:
+                carry = 1
+                s = s % 10
+            output.next = ListNode(s) 
             output = output.next
             if llist1.next == None:
                 break
+            llist1 = llist1.next
+
+    if carry != 0:
+        output.next = ListNode(carry)
+    
     return firstNode
 
 
 
 
-llist1 = listNode(2)
-llist1.next = listNode(4)
-llist1.next.next = listNode(3)
+llist1 = ListNode(1)
+llist1.next = ListNode(8)
+# llist1.next.next = ListNode(3)
 
 # 2 -> 4 -> 3 represents 342
 
@@ -78,9 +92,10 @@ llist1.next.next = listNode(3)
 
 # llist1.print_list()
 
-llist2 = listNode(5)
-llist2.next = listNode(6)
-llist2.next.next = listNode(4)
+llist2 = ListNode(0)
+# llist2.next = ListNode(6)
+# llist2.next.next = ListNode(4)
+# llist2.print_list()
 
 # 5 -> 6 -> 4 represents 465
 
