@@ -60,14 +60,16 @@ class Solution:
         while str[i] == " ":
             i+=1
             if i >= len(str):
-                break
+                return num
         if str[i] == "-":
             neg = True 
             i += 1
-            # if i >= len(str):
-            #         break
+            if i >= len(str):
+                return num
         elif str[i] == "+":
             i += 1
+            if i >= len(str):
+                return num
         elif not str[i].isdigit():
             return 0
         if str[i].isdigit():
