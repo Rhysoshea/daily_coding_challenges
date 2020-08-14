@@ -11,10 +11,10 @@ Note that an empty string is also considered valid.
 
 class Solution:
 
-    def init(self):
-        pass
+    def __init__(self, dummy):
+        self.dummy = dummy
 
-    def isValid( s):
+    def isValid(self, s):
 
         hash = {
             "[":"]",
@@ -36,7 +36,7 @@ class Solution:
 
         return True
 
-solve = Solution
+solve = Solution(0)
 
 assert(solve.isValid("()") == True)
 assert(solve.isValid("()[]{}") == True)
